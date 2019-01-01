@@ -1,0 +1,25 @@
+FROM debian:stretch
+
+LABEL VENDOR="Freddy Heredia"
+LABEL Description="Base Debian Lista para Trabajar"
+
+
+COPY resources/sources.list /etc/apt/
+
+ENV USUARIO ale
+ENV CLAVE 123
+
+RUN echo 'root:123' | chpasswd
+
+RUN apt -y update \
+    && apt -y upgrade \
+    && useradd -m $USUARIO -p $CLAVE \
+    && apt -y install openssh-server \
+    && mkdir /var/run/sshd
+
+#CMD ["/usr/sbin/sshd -D"]
+       /usr/sbin/sshd -D
+CMD ["bash"]
+
+EXPOSE 22
+
