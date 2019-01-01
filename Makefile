@@ -1,7 +1,7 @@
 build:
 	@ docker build . -t debiantest
 run:
-	@ docker run -it -h debiantest --name debiantest debiantest
+	@ docker run -it --rm -h debiantest -e POS_USER=hola --name debiantest debiantest
 rund:
 	@ docker run -d -h debiantest --name debiantest debiantest
 start:
@@ -19,3 +19,6 @@ rerund: delete build rund
 
 ip:
 	@ $ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' debiantest
+
+clean:
+	@ docker images -f dangling=true -q | xargs docker rmi
